@@ -1134,7 +1134,20 @@ Prefab:
     - target: {fileID: 23818542134897528, guid: ac5c53bae3add8d45a21c6b553dccf5d,
         type: 2}
       propertyPath: m_SortingOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944569009034176, guid: ac5c53bae3add8d45a21c6b553dccf5d, type: 2}
+      propertyPath: m_Name
+      value: Level
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018750824203438, guid: ac5c53bae3add8d45a21c6b553dccf5d, type: 2}
+      propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 23025539936251224, guid: ac5c53bae3add8d45a21c6b553dccf5d,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac5c53bae3add8d45a21c6b553dccf5d, type: 2}
@@ -1699,7 +1712,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1079320361}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1150.8, y: -1209.7, z: 0}
+  m_LocalPosition: {x: 298.57, y: -1334.3, z: 0}
   m_LocalScale: {x: 36.29445, y: 36.29445, z: 36.29445}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1738,8 +1751,10 @@ MonoBehaviour:
   jumpForce: 650
   grounded: 1
   climbing: 0
+  crouched: 0
   attacking1: 0
   attacking2: 0
+  moving: 0
   attackButton: 323
 --- !u!61 &1079320366
 BoxCollider2D:
@@ -3143,7 +3158,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1900725526}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1165.1001, y: -1217.4, z: -712}
+  m_LocalPosition: {x: 319.4, y: -1329, z: -712}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1301818613}

@@ -8,11 +8,18 @@ public class PlayerController : MonoBehaviour {
 
     public float moveSpeed;
     public float jumpForce;
-     public bool grounded;
-     public bool climbing;
+    [HideInInspector] public bool grounded;
+    [HideInInspector] public bool climbing;
+    [HideInInspector] public bool crouched;
 
     [HideInInspector] public bool attacking1 = false;
     [HideInInspector] public bool attacking2 = false;
+
+    [HideInInspector] public bool moving;
+    float currentMoveTimer;
+    float nextMoveCheckTime;
+    float moveDistanceCheckThreshold = .25f;
+    Vector2 playerOldPosition;
 
     public KeyCode attackButton;
 
@@ -21,12 +28,14 @@ public class PlayerController : MonoBehaviour {
     void Start(){
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
+        currentMoveTimer = Time.time;
+        nextMoveCheckTime = Time.time + 0.5f;
     }
 
 	void Update () {
         Move();
+        CheckForMovement();
         Attack();
-        Climb();
 	}
 
     void OnCollisionEnter2D(Collision2D other){
@@ -49,7 +58,6 @@ public class PlayerController : MonoBehaviour {
         if(other.tag == "Ladder"){
             print("trigger exit");
             rigidbody.isKinematic = false;
-            grounded = true;
             climbing = false;
         }
     }
@@ -66,21 +74,40 @@ public class PlayerController : MonoBehaviour {
         }
 
         if (grounded && v > 0){
-            GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpForce, ForceMode2D.Force + 5);
             grounded = false;
         }
-        else if(climbing){
-            transform.Translate(Vector2.up * Time.deltaTime * (Input.GetKey(KeyCode.W) ? 1:0));
+        else if(climbing && !grounded){
+            transform.Translate(Vector2.up * Time.deltaTime * (Input.GetAxis("Vertical")));
+            grounded = false;
+        }
+
+        if(Input.GetKey(KeyCode.S)){
+            crouched = true;
+        } else{
+            crouched = false;
         }
 
         Vector2 dir = new Vector2(h, 0);
-        if(!attacking1 && !attacking2)
+        if((!attacking1  || (!attacking1  && !attacking2)) && !crouched)
             transform.Translate(dir * moveSpeed * Time.deltaTime);
+    }
+
+    void CheckForMovement(){
+        currentMoveTimer += Time.deltaTime;
+        if(currentMoveTimer > nextMoveCheckTime){
+            nextMoveCheckTime = Time.time + 0.15f;
+            if(Mathf.Abs(playerOldPosition.x - transform.position.x) > moveDistanceCheckThreshold){
+                moving = true;
+            } else{
+                moving = false;
+            }
+            playerOldPosition = transform.position;
+        }
     }
 
     void Attack(){
         if (Input.GetKeyDown(attackButton) && !attacking1 && !attacking2){
-            //StopCoroutine(StartAttack());
             StartCoroutine(StartAttack());
         }
     }
@@ -88,7 +115,7 @@ public class PlayerController : MonoBehaviour {
     IEnumerator StartAttack()
     {
         attacking1 = true;
-        float timeCheckForSecondAttack = .6f;
+        float timeCheckForSecondAttack = 0.8f;
         float counter = 0;
         yield return null;
         while(counter <= timeCheckForSecondAttack){
@@ -100,13 +127,9 @@ public class PlayerController : MonoBehaviour {
             }
             yield return null;
         }
-
+        yield return new WaitForSeconds(.15f);
         attacking1 = false;
-        yield return new WaitForSeconds(2f);
         attacking2 = false;
     }
 
-    void Climb(){
-
-    }
 }

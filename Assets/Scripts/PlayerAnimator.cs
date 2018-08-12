@@ -19,6 +19,8 @@ public class PlayerAnimator : MonoBehaviour {
         }
 
         animator.SetBool("Grounded", player.grounded);
+        animator.SetBool("Climbing", player.climbing);
+        animator.SetBool("Crouched", player.crouched);
 
         animator.SetBool("Attack_1", player.attacking1);
         if(player.attacking2)
