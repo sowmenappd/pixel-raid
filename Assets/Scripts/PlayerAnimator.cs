@@ -9,9 +9,9 @@ public class PlayerAnimator : MonoBehaviour {
         player = GetComponent<PlayerController>();
         animator = transform.GetComponent<Animator>();
 	}
-	
+
 	void Update () {
-		if(Input.GetAxisRaw("Horizontal") != 0 && player.grounded){
+        if(Input.GetAxisRaw("Horizontal") != 0 && player.grounded && !player.attacking1 && !player.attacking2){
             animator.SetBool("Idle", false);
         }
         else{
@@ -19,5 +19,9 @@ public class PlayerAnimator : MonoBehaviour {
         }
 
         animator.SetBool("Grounded", player.grounded);
-	}
+
+        animator.SetBool("Attack_1", player.attacking1);
+        if(player.attacking2)
+            animator.SetTrigger("Attack_2");
+    }
 }
