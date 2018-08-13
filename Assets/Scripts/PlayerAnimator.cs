@@ -13,8 +13,7 @@ public class PlayerAnimator : MonoBehaviour {
 	void Update () {
         if(Input.GetAxisRaw("Horizontal") != 0 && player.grounded && !player.attacking1 && !player.attacking2){
             animator.SetBool("Idle", false);
-        }
-        else{
+        } else{
             animator.SetBool("Idle", true);
         }
 
@@ -23,7 +22,8 @@ public class PlayerAnimator : MonoBehaviour {
         animator.SetBool("Crouched", player.crouched);
 
         animator.SetBool("Attack_1", player.attacking1);
-        if(player.attacking2)
+        if(player.attacking2){
             animator.SetTrigger("Attack_2");
+        }
     }
 }

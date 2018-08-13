@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
     new Rigidbody2D rigidbody;
+    PlayerEntity player;
 
     public float moveSpeed;
     public float jumpForce;
@@ -16,6 +18,8 @@ public class PlayerController : MonoBehaviour {
     [HideInInspector] public bool attacking2 = false;
 
     [HideInInspector] public bool moving;
+
+    public float attackRadius;
     float currentMoveTimer;
     float nextMoveCheckTime;
     float moveDistanceCheckThreshold = .25f;
@@ -26,6 +30,7 @@ public class PlayerController : MonoBehaviour {
     Animator animator;
 
     void Start(){
+        player = GetComponent<PlayerEntity>();
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
         currentMoveTimer = Time.time;
@@ -48,7 +53,6 @@ public class PlayerController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other){
         if(other.tag == "Ladder"){
-            print("trigger enter");
             rigidbody.isKinematic = true;
             grounded = false;
             climbing = true;
@@ -56,7 +60,6 @@ public class PlayerController : MonoBehaviour {
     }
     void OnTriggerExit2D(Collider2D other){
         if(other.tag == "Ladder"){
-            print("trigger exit");
             rigidbody.isKinematic = false;
             climbing = false;
         }
@@ -108,27 +111,28 @@ public class PlayerController : MonoBehaviour {
 
     void Attack(){
         if (Input.GetKeyDown(attackButton) && !attacking1 && !attacking2){
+            //StopAllCoroutines();
             StartCoroutine(StartAttack());
         }
     }
 
-    IEnumerator StartAttack()
-    {
+    IEnumerator StartAttack(){
         attacking1 = true;
+        player.Attack(attackRadius, 15, "Enemy");
         float timeCheckForSecondAttack = 0.8f;
         float counter = 0;
         yield return null;
+        attacking1 = false;
         while(counter <= timeCheckForSecondAttack){
             counter += Time.fixedDeltaTime;
             AnimatorStateInfo attackState = animator.GetCurrentAnimatorStateInfo(0);
             if(attackState.fullPathHash == Animator.StringToHash("Base Layer.Player_MeleeAttack1") &&
                 Input.GetKeyDown(attackButton)){
-                animator.SetTrigger("Attack_2");
+                player.Attack(attackRadius, 15, "Enemy");
             }
             yield return null;
         }
-        yield return new WaitForSeconds(.15f);
-        attacking1 = false;
+        yield return new WaitForSeconds(.1f);
         attacking2 = false;
     }
 
