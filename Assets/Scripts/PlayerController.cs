@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour {
     public float attackRadius;
     float currentMoveTimer;
     float nextMoveCheckTime;
-    float moveDistanceCheckThreshold = 6f;
+    float moveDistanceCheckThreshold = .6f;
     Vector2 playerOldPosition;
 
     public KeyCode leftButton;
@@ -54,6 +54,21 @@ public class PlayerController : MonoBehaviour {
             grounded = true;
             climbing = false;
             rigidbody.isKinematic = false;
+        }
+    }
+    void OnCollisionStay2D(Collision2D other)
+    {
+        if(other.collider.tag == "Ground")
+        {
+            grounded = true;
+            climbing = false;
+            rigidbody.isKinematic = false;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D other){
+        if(other.collider.tag == "Ground"){
+            grounded = false;
         }
     }
 
@@ -112,7 +127,7 @@ public class PlayerController : MonoBehaviour {
     void CheckForMovement(){
         currentMoveTimer += Time.deltaTime;
         if(currentMoveTimer > nextMoveCheckTime){
-            nextMoveCheckTime = Time.time + 1f;
+            nextMoveCheckTime = Time.time + .1f;
             if(Mathf.Abs(playerOldPosition.x - transform.position.x) > moveDistanceCheckThreshold){
                 moving = true;
             } else{
@@ -123,7 +138,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Attack(){
-        if(Input.GetKeyDown(attackButton) && !attacking1){
+        if(Input.GetKeyDown(attackButton) && !attacking1 && grounded){
             StartCoroutine(StartAttack());
             player.Attack(player.attackRadius, player.attackDamage, "Enemy");
         }

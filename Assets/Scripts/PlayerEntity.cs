@@ -43,7 +43,7 @@ public class PlayerEntity : LivingEntity {
                     c.GetComponent<Rigidbody2D>().AddForce(dir * attackForce);
                 }
             }
-            StopCoroutine(HaltMovement(attackMovementInterruptDelay / 2f));
+            //StopCoroutine(HaltMovement(attackMovementInterruptDelay / 2f));
             StartCoroutine(HaltMovement(attackMovementInterruptDelay / 2f));
         }
     }

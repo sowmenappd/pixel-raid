@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HazardObject : MonoBehaviour {
+public class HazardObject : LevelObject {
 
     public bool damageOverTime;
     public float damageRate = 1f;
@@ -25,17 +25,18 @@ public class HazardObject : MonoBehaviour {
 
     IEnumerator StartImmunityPeriod(float duration){
         if(!player.immune){
+            SpriteRenderer renderer = player.GetComponent<SpriteRenderer>();
             player.immune = true;
             float timer = 0;
             int i = 0;
             while(timer < (duration - .1f)){
                 timer += Time.deltaTime;
-                player.GetComponent<SpriteRenderer>().enabled = ( i % 4 == 0 || i % 5 == 0 ? false : true);
+                renderer.enabled = ( i % 4 == 0 || i % 5 == 0 ? false : true);
                 i++;
                 yield return null;
             }
             player.immune = false;
-            player.GetComponent<SpriteRenderer>().enabled = true;
+            renderer.enabled = true;
         }
     }
 }
