@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
+    public bool Android = false;
 
     new Rigidbody2D rigidbody;
     PlayerEntity player;
@@ -41,10 +42,14 @@ public class PlayerController : MonoBehaviour {
         rigidbody = GetComponent<Rigidbody2D>();
         currentMoveTimer = Time.time;
         nextMoveCheckTime = Time.time + 1f;
+
+        if(Android) jumpForce /= 2f;
     }
 
 	void Update () {
-        Move();
+        if(Android)
+            MoveAndroid();
+        else Move();
         CheckForMovement();
         Attack();
 	}
@@ -123,6 +128,78 @@ public class PlayerController : MonoBehaviour {
         if(((!attacking1  || (!attacking1  && !attacking2)) && !crouched) && !halt)
             transform.Translate(dir * moveSpeed * Time.deltaTime);
     }
+
+    #region AndroidControls
+
+    bool moveLeft, moveRight, jump, crouch;
+
+    public void MoveLeftAndroidIn(){
+        moveLeft = true;
+    }
+    public void MoveRightAndroidIn(){
+        moveRight = true;
+    }
+    public void JumpAndroidIn(){
+        jump = true;
+    }
+    public void CrouchAndroidIn(){
+        crouch = true;
+    }
+    public void MoveLeftAndroidOut(){
+        moveLeft = false;
+    }
+    public void MoveRightAndroidOut(){
+        moveRight = false;
+    }
+    public void JumpAndroidOut(){
+        jump = false;
+    }
+    public void CrouchAndroidOut(){
+        crouch = false;
+    }
+
+    void MoveAndroid(){
+        _moving = moveLeft ? true : moveRight ? true : false;
+        float h = moveLeft ? -1 : moveRight ? 1 : 0;
+        float v = jump ? 1 : 0;
+
+        if(h < 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+            player.attackPoint.localPosition = new Vector2(-.153f, -.074f);
+        } else if(h > 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+            player.attackPoint.localPosition = new Vector2(.153f, -.074f);
+        }
+
+        if(grounded && v > 0)
+        {
+            GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpForce, ForceMode2D.Force + 5);
+            grounded = false;
+        } else if(climbing && !grounded)
+        {
+            GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+            transform.Translate(Vector2.up * Time.deltaTime * ( jump ? 1 : crouch ? -1 : 0 ));
+            grounded = false;
+        } else
+        {
+            GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        }
+
+        if(crouch)
+        {
+            crouched = true;
+        } else
+        {
+            crouched = false;
+        }
+
+        Vector2 dir = new Vector2(h, 0);
+        if(( ( !attacking1 || ( !attacking1 && !attacking2 ) ) && !crouched ) && !halt)
+            transform.Translate(dir * moveSpeed * Time.deltaTime);
+    }
+    #endregion
 
     void CheckForMovement(){
         currentMoveTimer += Time.deltaTime;
