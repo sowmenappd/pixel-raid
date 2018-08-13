@@ -10,22 +10,27 @@ public class PlayerEntity : LivingEntity {
 
     public Transform attackPoint;
 
-    public int attackDamage = 5;
+    public bool immune;
+
+    public int attackDamage = 2;
     public float attackMovementInterruptDelay;
-    public float radius = .75f;
+    public float damagedMovementInterruptDelay;
+    public float attackRadius = .75f;
 
 	public override void Start () {
         base.Start();
         animator = GetComponent<Animator>();
         pAnimator = GetComponent<PlayerAnimator>();
         controller = GetComponent<PlayerController>();
-
+        immune = false;
     }
 
     public override void TakeDamage(int dmg){
-        animator.SetTrigger("Attacked");
-        base.TakeDamage(dmg);
-        StartCoroutine(HaltMovement(0.45f));
+        if(!immune){
+            animator.SetTrigger("Attacked");
+            base.TakeDamage(dmg);
+            StartCoroutine(HaltMovement(damagedMovementInterruptDelay));
+        }
     }
 
     public void Attack(float radius, int attackDamage, string tag){
@@ -38,12 +43,13 @@ public class PlayerEntity : LivingEntity {
                     c.GetComponent<Rigidbody2D>().AddForce(dir * attackForce);
                 }
             }
-            StartCoroutine(HaltMovement(attackMovementInterruptDelay));
+            StopCoroutine(HaltMovement(attackMovementInterruptDelay / 2f));
+            StartCoroutine(HaltMovement(attackMovementInterruptDelay / 2f));
         }
     }
 
     public override void Die(){
-        if(!isAlive){
+        if(isAlive && !immune){
             base.Die();
             animator.SetTrigger("Dead");
             controller.enabled = false;
@@ -54,12 +60,6 @@ public class PlayerEntity : LivingEntity {
         controller.halt = true;
         yield return new WaitForSeconds(time);
         controller.halt = false;
-    }
-
-    void OnGUI(){
-        if(controller.attacking1)
-            Debug.DrawLine(transform.position, attackPoint.position, Color.red, 1.5f);
-
     }
 
 }

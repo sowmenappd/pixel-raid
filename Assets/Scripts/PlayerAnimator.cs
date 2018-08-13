@@ -11,7 +11,9 @@ public class PlayerAnimator : MonoBehaviour {
 	}
 
 	void Update () {
-        if(Input.GetAxisRaw("Horizontal") != 0 && player.grounded && !player.attacking1 && !player.attacking2 && !player.halt){
+
+        if(player._moving && player.grounded && !player.attacking1 
+            && !player.attacking2 && !player.halt){
             animator.SetBool("Idle", false);
         } else{
             animator.SetBool("Idle", true);

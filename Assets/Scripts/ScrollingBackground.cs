@@ -8,15 +8,17 @@ public class ScrollingBackground : MonoBehaviour {
 	public float scrollSpeed;
 	SpriteRenderer _r;
     PlayerController player;
+    PlayerEntity pEntity;
 	void Start(){
 		_r = GetComponent<SpriteRenderer>();
         player = FindObjectOfType<PlayerController>();
+        pEntity = player.GetComponent<PlayerEntity>();
 	}
 	
 	void Update () {
-        if(player.moving){
-            float dir = Input.GetAxisRaw("Horizontal");
-		    _r.size += new Vector2(Time.deltaTime * scrollSpeed * dir, 0f);
+        if(pEntity.isAlive && player.moving){
+            float dir = Input.GetKey(player.leftButton) ? -1 : ( Input.GetKey(player.rightButton) ? 1 : 0 );
+            _r.size += new Vector2(Time.deltaTime * scrollSpeed * dir, 0f);
         }
 	}
 }

@@ -17,13 +17,13 @@ public class PlayerController : MonoBehaviour {
     [HideInInspector] public bool attacking1 = false;
     [HideInInspector] public bool attacking2 = false;
 
-    [HideInInspector] public bool moving;
+    [HideInInspector] public bool moving, _moving;
     [HideInInspector] public bool halt; // this is controlled by the entity class
 
     public float attackRadius;
     float currentMoveTimer;
     float nextMoveCheckTime;
-    float moveDistanceCheckThreshold = .25f;
+    float moveDistanceCheckThreshold = 6f;
     Vector2 playerOldPosition;
 
     public KeyCode leftButton;
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour {
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
         currentMoveTimer = Time.time;
-        nextMoveCheckTime = Time.time + 0.5f;
+        nextMoveCheckTime = Time.time + 1f;
     }
 
 	void Update () {
@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Move(){
+        _moving = Input.GetKey(leftButton) ? true : ( Input.GetKey(rightButton) ? true : false);
         float h = Input.GetKey(leftButton) ? -1 : (Input.GetKey(rightButton) ? 1 : 0);
         float v = Input.GetKeyDown(jumpButton) ? 1 : 0;
 
@@ -89,8 +90,12 @@ public class PlayerController : MonoBehaviour {
             grounded = false;
         }
         else if(climbing && !grounded){
-            transform.Translate(Vector2.up * Time.deltaTime * (Input.GetKey(jumpButton) ? 1 : 0));
+            GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+            transform.Translate(Vector2.up * Time.deltaTime * 
+                (Input.GetKey(jumpButton) ? 1 : Input.GetKey(crouchButton) ? -1 : 0));
             grounded = false;
+        } else {
+            GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         }
 
         if(Input.GetKey(crouchButton)){
@@ -107,7 +112,7 @@ public class PlayerController : MonoBehaviour {
     void CheckForMovement(){
         currentMoveTimer += Time.deltaTime;
         if(currentMoveTimer > nextMoveCheckTime){
-            nextMoveCheckTime = Time.time + 0.15f;
+            nextMoveCheckTime = Time.time + 1f;
             if(Mathf.Abs(playerOldPosition.x - transform.position.x) > moveDistanceCheckThreshold){
                 moving = true;
             } else{
@@ -120,7 +125,7 @@ public class PlayerController : MonoBehaviour {
     void Attack(){
         if(Input.GetKeyDown(attackButton) && !attacking1){
             StartCoroutine(StartAttack());
-            player.Attack(.75f, 1, "Enemy");
+            player.Attack(player.attackRadius, player.attackDamage, "Enemy");
         }
     }
 
@@ -136,7 +141,5 @@ public class PlayerController : MonoBehaviour {
             yield return null;
         }
     }
-
-    
 
 }

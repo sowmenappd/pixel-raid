@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LivingEntity : MonoBehaviour, IDamageable {
     public int startingHealth;
-    protected bool isAlive;
+    [HideInInspector] public bool isAlive;
     [Tooltip("Place this slightly in front of the character")]
     public float attackForce;
 
@@ -25,5 +25,7 @@ public class LivingEntity : MonoBehaviour, IDamageable {
 
     public virtual void Die(){
         isAlive = false;
+        GetComponent<Rigidbody2D>().simulated = false;
+        GetComponent<BoxCollider2D>().enabled = false;
     }
 }
