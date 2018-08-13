@@ -4,13 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerEntity : LivingEntity {
-
     Animator animator;
     PlayerController controller;
+    PlayerAnimator pAnimator;
+
+    public Transform attackPoint;
+
+    public int attackDamage = 5;
+    public float attackMovementInterruptDelay;
+    public float radius = .75f;
 
 	public override void Start () {
         base.Start();
         animator = GetComponent<Animator>();
+        pAnimator = GetComponent<PlayerAnimator>();
         controller = GetComponent<PlayerController>();
 
     }
@@ -21,10 +28,17 @@ public class PlayerEntity : LivingEntity {
         StartCoroutine(HaltMovement(0.45f));
     }
 
-    public override void Attack(float radius, int attackDamage, string tag){
+    public void Attack(float radius, int attackDamage, string tag){
         if(isAlive){
-            //StartCoroutine(HaltMovement(.2f));
-            base.Attack(radius, attackDamage, tag);
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(attackPoint.position, radius);
+            foreach(Collider2D c in colliders){
+                if(c.GetComponent<IDamageable>() != null && c.tag == tag){
+                    c.GetComponent<IDamageable>().TakeDamage(attackDamage);
+                    Vector2 dir = ( (Vector2)c.transform.position - (Vector2)transform.position ).normalized;
+                    c.GetComponent<Rigidbody2D>().AddForce(dir * attackForce);
+                }
+            }
+            StartCoroutine(HaltMovement(attackMovementInterruptDelay));
         }
     }
 
@@ -37,9 +51,15 @@ public class PlayerEntity : LivingEntity {
     }
 
     IEnumerator HaltMovement(float time){
-        controller.enabled = false;
+        controller.halt = true;
         yield return new WaitForSeconds(time);
-        controller.enabled = true;
+        controller.halt = false;
+    }
+
+    void OnGUI(){
+        if(controller.attacking1)
+            Debug.DrawLine(transform.position, attackPoint.position, Color.red, 1.5f);
+
     }
 
 }

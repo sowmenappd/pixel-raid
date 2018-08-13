@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour {
     [HideInInspector] public bool attacking2 = false;
 
     [HideInInspector] public bool moving;
+    [HideInInspector] public bool halt; // this is controlled by the entity class
 
     public float attackRadius;
     float currentMoveTimer;
@@ -25,11 +26,16 @@ public class PlayerController : MonoBehaviour {
     float moveDistanceCheckThreshold = .25f;
     Vector2 playerOldPosition;
 
+    public KeyCode leftButton;
+    public KeyCode jumpButton;
+    public KeyCode rightButton;
     public KeyCode attackButton;
+    public KeyCode crouchButton;
 
     Animator animator;
 
     void Start(){
+        halt = false;
         player = GetComponent<PlayerEntity>();
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
@@ -66,14 +72,16 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Move(){
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetKeyDown(KeyCode.W) ? 1 : 0;
+        float h = Input.GetKey(leftButton) ? -1 : (Input.GetKey(rightButton) ? 1 : 0);
+        float v = Input.GetKeyDown(jumpButton) ? 1 : 0;
 
         if (h < 0){
             GetComponent<SpriteRenderer>().flipX = true;
+            player.attackPoint.localPosition = new Vector2(-.153f, -.074f);
         }
         else if (h > 0){
             GetComponent<SpriteRenderer>().flipX = false;
+            player.attackPoint.localPosition = new Vector2(.153f, -.074f);
         }
 
         if (grounded && v > 0){
@@ -81,18 +89,18 @@ public class PlayerController : MonoBehaviour {
             grounded = false;
         }
         else if(climbing && !grounded){
-            transform.Translate(Vector2.up * Time.deltaTime * (Input.GetAxis("Vertical")));
+            transform.Translate(Vector2.up * Time.deltaTime * (Input.GetKey(jumpButton) ? 1 : 0));
             grounded = false;
         }
 
-        if(Input.GetKey(KeyCode.S)){
+        if(Input.GetKey(crouchButton)){
             crouched = true;
         } else{
             crouched = false;
         }
 
         Vector2 dir = new Vector2(h, 0);
-        if((!attacking1  || (!attacking1  && !attacking2)) && !crouched)
+        if(((!attacking1  || (!attacking1  && !attacking2)) && !crouched) && !halt)
             transform.Translate(dir * moveSpeed * Time.deltaTime);
     }
 
@@ -110,30 +118,25 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Attack(){
-        if (Input.GetKeyDown(attackButton) && !attacking1 && !attacking2){
-            //StopAllCoroutines();
+        if(Input.GetKeyDown(attackButton) && !attacking1){
             StartCoroutine(StartAttack());
+            player.Attack(.75f, 1, "Enemy");
         }
     }
 
     IEnumerator StartAttack(){
         attacking1 = true;
-        player.Attack(attackRadius, 15, "Enemy");
-        float timeCheckForSecondAttack = 0.8f;
-        float counter = 0;
+        float c = 0, t = .6f;
         yield return null;
         attacking1 = false;
-        while(counter <= timeCheckForSecondAttack){
-            counter += Time.fixedDeltaTime;
-            AnimatorStateInfo attackState = animator.GetCurrentAnimatorStateInfo(0);
-            if(attackState.fullPathHash == Animator.StringToHash("Base Layer.Player_MeleeAttack1") &&
-                Input.GetKeyDown(attackButton)){
-                player.Attack(attackRadius, 15, "Enemy");
-            }
+        while(c <= t){
+            c += Time.deltaTime;
+            if(Input.GetKeyDown(attackButton))
+                attacking2 = true;
             yield return null;
         }
-        yield return new WaitForSeconds(.1f);
-        attacking2 = false;
     }
+
+    
 
 }

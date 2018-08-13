@@ -2490,7 +2490,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1079320361}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1173, y: -1127, z: 0}
+  m_LocalPosition: {x: 1172.4, y: -1126.4, z: 0}
   m_LocalScale: {x: 36.29445, y: 36.29445, z: 36.29445}
   m_Children:
   - {fileID: 716695061}
@@ -2534,8 +2534,13 @@ MonoBehaviour:
   attacking1: 0
   attacking2: 0
   moving: 0
+  halt: 0
   attackRadius: 0.5
-  attackButton: 306
+  leftButton: 97
+  jumpButton: 119
+  rightButton: 100
+  attackButton: 32
+  crouchButton: 115
 --- !u!61 &1079320366
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2606,6 +2611,9 @@ MonoBehaviour:
   startingHealth: 100
   attackPoint: {fileID: 716695061}
   attackForce: 2
+  attackDamage: 5
+  attackMovementInterruptDelay: 1
+  radius: 0.75
 --- !u!4 &1104498601 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4849178437452384, guid: e265bbcce0e74fd478df769345a5d227,
