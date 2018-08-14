@@ -41,9 +41,9 @@ TextureImporter:
     filterMode: -1
     aniso: -1
     mipBias: -100
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -105,18 +105,18 @@ TextureImporter:
       name: laser-turn-on_0
       rect:
         serializedVersion: 2
-        x: 14
+        x: 0
         y: 0
-        width: 14
+        width: 16
         height: 64
-      alignment: 9
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 949da0eb9a03dc049b97b83ec11b41fb
+      spriteID: adc5f3473691b37429ad9202625daaf2
       vertices: []
       indices: 
       edges: []
@@ -125,18 +125,18 @@ TextureImporter:
       name: laser-turn-on_1
       rect:
         serializedVersion: 2
-        x: 28
+        x: 16
         y: 0
-        width: 14
+        width: 16
         height: 64
-      alignment: 9
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 03db0856a9aeb134b959130d328a319d
+      spriteID: 7bd52c702a331644a8157ea1e976e65e
       vertices: []
       indices: 
       edges: []
@@ -145,18 +145,18 @@ TextureImporter:
       name: laser-turn-on_2
       rect:
         serializedVersion: 2
-        x: 42
+        x: 32
         y: 0
-        width: 14
+        width: 16
         height: 64
-      alignment: 9
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c244890a6cbd1246bfd56124524e563
+      spriteID: e7315924f16a89c47b782c934a2e37da
       vertices: []
       indices: 
       edges: []
@@ -165,18 +165,18 @@ TextureImporter:
       name: laser-turn-on_3
       rect:
         serializedVersion: 2
-        x: 56
+        x: 48
         y: 0
-        width: 14
+        width: 16
         height: 64
-      alignment: 9
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b34c16e6fedddf747aec79670ddca61a
+      spriteID: edfb244a9c5cee348b68806032f20010
       vertices: []
       indices: 
       edges: []
@@ -185,18 +185,18 @@ TextureImporter:
       name: laser-turn-on_4
       rect:
         serializedVersion: 2
-        x: 70
+        x: 64
         y: 0
-        width: 14
+        width: 16
         height: 64
-      alignment: 9
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d65361d73751e743b3ed53b21abf680
+      spriteID: 44a526c62118d2f4ea343af9c0908631
       vertices: []
       indices: 
       edges: []
@@ -205,18 +205,18 @@ TextureImporter:
       name: laser-turn-on_5
       rect:
         serializedVersion: 2
-        x: 84
+        x: 80
         y: 0
-        width: 14
+        width: 16
         height: 64
-      alignment: 9
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0ca4d7426cbc982429795af2d769e927
+      spriteID: 9ec13fb5954da454983a15d005c2faf5
       vertices: []
       indices: 
       edges: []
@@ -225,18 +225,18 @@ TextureImporter:
       name: laser-turn-on_6
       rect:
         serializedVersion: 2
-        x: 98
+        x: 96
         y: 0
-        width: 14
+        width: 16
         height: 64
-      alignment: 9
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 206dc3edc9ac07f4abeae8f203fb59fb
+      spriteID: 095892eb53ca0834692d115e3127462a
       vertices: []
       indices: 
       edges: []

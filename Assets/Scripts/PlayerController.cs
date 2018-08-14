@@ -20,11 +20,12 @@ public class PlayerController : MonoBehaviour {
 
     [HideInInspector] public bool moving, _moving;
     [HideInInspector] public bool halt; // this is controlled by the entity class
+    [HideInInspector] public bool androidJumpFlag;
 
     public float attackRadius;
     float currentMoveTimer;
     float nextMoveCheckTime;
-    float moveDistanceCheckThreshold = .6f;
+    float moveDistanceCheckThreshold = 3f;
     Vector2 playerOldPosition;
 
     public KeyCode leftButton;
@@ -42,11 +43,11 @@ public class PlayerController : MonoBehaviour {
         rigidbody = GetComponent<Rigidbody2D>();
         currentMoveTimer = Time.time;
         nextMoveCheckTime = Time.time + 1f;
-
-        if(Android) jumpForce /= 2f;
+        playerOldPosition = transform.localPosition;
+        androidJumpFlag = false;
     }
 
-	void Update () {
+    void Update () {
         if(Android)
             MoveAndroid();
         else Move();
@@ -59,12 +60,11 @@ public class PlayerController : MonoBehaviour {
             grounded = true;
             climbing = false;
             rigidbody.isKinematic = false;
+            jumpCounter = 0;
         }
     }
-    void OnCollisionStay2D(Collision2D other)
-    {
-        if(other.collider.tag == "Ground")
-        {
+    void OnCollisionStay2D(Collision2D other) {
+        if(other.collider.tag == "Ground") {
             grounded = true;
             climbing = false;
             rigidbody.isKinematic = false;
@@ -107,6 +107,7 @@ public class PlayerController : MonoBehaviour {
 
         if (grounded && v > 0){
             GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpForce, ForceMode2D.Force + 5);
+            GetComponent<Rigidbody2D>().velocity = Vector2.ClampMagnitude(GetComponent<Rigidbody2D>().velocity, 70);
             grounded = false;
         }
         else if(climbing && !grounded){
@@ -131,7 +132,8 @@ public class PlayerController : MonoBehaviour {
 
     #region AndroidControls
 
-    bool moveLeft, moveRight, jump, crouch;
+    [HideInInspector] public bool moveLeft, moveRight, jump, crouch;
+    int jumpCounter = 0;
 
     public void MoveLeftAndroidIn(){
         moveLeft = true;
@@ -140,7 +142,10 @@ public class PlayerController : MonoBehaviour {
         moveRight = true;
     }
     public void JumpAndroidIn(){
-        jump = true;
+        jumpCounter++;
+        if(jumpCounter <= 2){
+            jump = true;
+        }
     }
     public void CrouchAndroidIn(){
         crouch = true;
@@ -163,8 +168,8 @@ public class PlayerController : MonoBehaviour {
         float h = moveLeft ? -1 : moveRight ? 1 : 0;
         float v = jump ? 1 : 0;
 
-        if(h < 0)
-        {
+
+        if(h < 0) {
             GetComponent<SpriteRenderer>().flipX = true;
             player.attackPoint.localPosition = new Vector2(-.153f, -.074f);
         } else if(h > 0)
@@ -173,25 +178,25 @@ public class PlayerController : MonoBehaviour {
             player.attackPoint.localPosition = new Vector2(.153f, -.074f);
         }
 
-        if(grounded && v > 0)
-        {
+        if(grounded && v > 0 && !androidJumpFlag) {
+            print("Jump counter" + jumpCounter);
             GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpForce, ForceMode2D.Force + 5);
+            GetComponent<Rigidbody2D>().velocity = Vector2.ClampMagnitude(GetComponent<Rigidbody2D>().velocity, 70);
+            androidJumpFlag = true;
             grounded = false;
-        } else if(climbing && !grounded)
-        {
+        } else if(climbing && !grounded) {
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
             transform.Translate(Vector2.up * Time.deltaTime * ( jump ? 1 : crouch ? -1 : 0 ));
             grounded = false;
-        } else
-        {
+        } else {
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         }
 
-        if(crouch)
-        {
+        if(v == 0) androidJumpFlag = false;
+
+        if(crouch) {
             crouched = true;
-        } else
-        {
+        } else {
             crouched = false;
         }
 
@@ -204,13 +209,13 @@ public class PlayerController : MonoBehaviour {
     void CheckForMovement(){
         currentMoveTimer += Time.deltaTime;
         if(currentMoveTimer > nextMoveCheckTime){
-            nextMoveCheckTime = Time.time + .1f;
-            if(Mathf.Abs(playerOldPosition.x - transform.position.x) > moveDistanceCheckThreshold){
+            nextMoveCheckTime = Time.time + .5f;
+            if(Mathf.Abs(playerOldPosition.x - transform.transform.localPosition.x) > moveDistanceCheckThreshold){
                 moving = true;
             } else{
                 moving = false;
             }
-            playerOldPosition = transform.position;
+            playerOldPosition = transform.localPosition;
         }
     }
 

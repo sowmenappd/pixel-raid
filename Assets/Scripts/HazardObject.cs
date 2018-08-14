@@ -15,7 +15,12 @@ public class HazardObject : LevelObject {
     }
 
     public virtual void OnCollisionEnter2D(Collision2D obj){
-        Attack(obj.collider.GetComponent<IDamageable>(), damage);
+        if(!transform.GetComponent<Collider>().isTrigger)
+            Attack(obj.collider.GetComponent<IDamageable>(), damage);
+    }
+
+    public virtual void OnTriggerEnter2D(Collider2D obj){
+        Attack(obj.GetComponent<IDamageable>(), damage);
     }
 
     public virtual void Attack(IDamageable target, int damage){
@@ -31,7 +36,7 @@ public class HazardObject : LevelObject {
             int i = 0;
             while(timer < (duration - .1f)){
                 timer += Time.deltaTime;
-                renderer.enabled = ( i % 4 == 0 || i % 5 == 0 ? false : true);
+                renderer.enabled = ( i % 4 == 0 || i % 7 == 0 ? false : true);
                 i++;
                 yield return null;
             }
