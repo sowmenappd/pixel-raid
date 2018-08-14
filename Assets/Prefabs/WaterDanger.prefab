@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 61845172295789500}
   - component: {fileID: 114005377143713632}
   m_Layer: 0
-  m_Name: DangerPoints
+  m_Name: WaterDanger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

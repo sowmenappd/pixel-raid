@@ -7,7 +7,7 @@ public class PlayerEntity : LivingEntity {
     Animator animator;
     PlayerController controller;
     PlayerAnimator pAnimator;
-
+    SpriteRenderer _renderer;
     public Transform attackPoint;
 
     public bool immune;
@@ -22,6 +22,7 @@ public class PlayerEntity : LivingEntity {
         animator = GetComponent<Animator>();
         pAnimator = GetComponent<PlayerAnimator>();
         controller = GetComponent<PlayerController>();
+        _renderer = GetComponent<SpriteRenderer>();
         immune = false;
     }
 
@@ -30,6 +31,7 @@ public class PlayerEntity : LivingEntity {
             animator.SetTrigger("Attacked");
             base.TakeDamage(dmg);
             StartCoroutine(HaltMovement(damagedMovementInterruptDelay));
+            StartCoroutine(StartImmunityPeriod(3f));
         }
     }
 
@@ -43,7 +45,6 @@ public class PlayerEntity : LivingEntity {
                     c.GetComponent<Rigidbody2D>().AddForce(dir * attackForce);
                 }
             }
-            //StopCoroutine(HaltMovement(attackMovementInterruptDelay / 2f));
             StartCoroutine(HaltMovement(attackMovementInterruptDelay / 2f));
         }
     }
@@ -60,6 +61,23 @@ public class PlayerEntity : LivingEntity {
         controller.halt = true;
         yield return new WaitForSeconds(time);
         controller.halt = false;
+    }
+
+    public IEnumerator StartImmunityPeriod(float duration){
+        if(!immune){
+            immune = true;
+            float timer = 0;
+            int i = 0;
+            while(timer < ( duration - .1f ))
+            {
+                timer += Time.deltaTime;
+                _renderer.enabled = ( i % 4 == 0 || i % 7 == 0 ? false : true );
+                i++;
+                yield return null;
+            }
+            immune = false;
+            _renderer.enabled = true;
+        }
     }
 
 }

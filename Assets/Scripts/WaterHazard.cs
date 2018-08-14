@@ -12,12 +12,5 @@ public class WaterHazard : HazardObject {
             obj.collider.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1f, 1f), pushForce * 2f), ForceMode2D.Impulse);
         }
     }
-
-    void Update()
-    {
-        //print(FindObjectOfType<PlayerEntity>().GetComponent<Rigidbody2D>().velocity);
-    }
-
-
 }
 

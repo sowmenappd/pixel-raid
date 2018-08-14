@@ -10,6 +10,14 @@ public class LivingEntity : MonoBehaviour, IDamageable {
 
     int health;
 
+    public event System.Action OnDeath;
+
+    public Component[] componentsToTurnOffOnDeath;
+
+    void Awake(){
+        OnDeath += TurnOffComponentsOnDeath;
+    }
+
 	public virtual void Start () {
         isAlive = true;
         health = startingHealth;
@@ -25,7 +33,24 @@ public class LivingEntity : MonoBehaviour, IDamageable {
 
     public virtual void Die(){
         isAlive = false;
+        if(OnDeath != null) OnDeath();
         GetComponent<Rigidbody2D>().simulated = false;
-        GetComponent<BoxCollider2D>().enabled = false;
+        //GetComponent<BoxCollider2D>().enabled = false;
+    }
+
+    public T RetrieveComponent<T>(){
+        return GetComponent<T>();
+    }
+
+    void TurnOffComponentsOnDeath(){
+        foreach(Component component in componentsToTurnOffOnDeath){
+            if(component is Renderer){
+                ( component as Renderer ).enabled = false;
+            } else if(component is Collider){
+                ( component as Collider ).enabled = false;
+            } else if(component is Behaviour){
+                ( component as Behaviour ).enabled = false;
+            }
+        }
     }
 }

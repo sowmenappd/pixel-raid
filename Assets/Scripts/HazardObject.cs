@@ -15,7 +15,7 @@ public class HazardObject : LevelObject {
     }
 
     public virtual void OnCollisionEnter2D(Collision2D obj){
-        if(!transform.GetComponent<Collider>().isTrigger)
+        if(!transform.GetComponent<Collider2D>().isTrigger)
             Attack(obj.collider.GetComponent<IDamageable>(), damage);
     }
 
@@ -25,23 +25,6 @@ public class HazardObject : LevelObject {
 
     public virtual void Attack(IDamageable target, int damage){
         target.TakeDamage(damage);
-        StartCoroutine(StartImmunityPeriod(3f));
     }
 
-    IEnumerator StartImmunityPeriod(float duration){
-        if(!player.immune){
-            SpriteRenderer renderer = player.GetComponent<SpriteRenderer>();
-            player.immune = true;
-            float timer = 0;
-            int i = 0;
-            while(timer < (duration - .1f)){
-                timer += Time.deltaTime;
-                renderer.enabled = ( i % 4 == 0 || i % 7 == 0 ? false : true);
-                i++;
-                yield return null;
-            }
-            player.immune = false;
-            renderer.enabled = true;
-        }
-    }
 }
