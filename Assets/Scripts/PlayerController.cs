@@ -72,6 +72,12 @@ public class PlayerController : MonoBehaviour {
             jumpCounter = 0;
             GetComponent<IDamageable>().TakeDamage(other.collider.GetComponent<EnemyEntity>().damage);
         }
+        if(other.collider.tag == "Interactive Enemy"){
+            grounded = true;
+            climbing = false;
+            jumpCounter = 0;
+            GetComponent<IDamageable>().TakeDamage(player.damage);
+        }
     }
     void OnCollisionStay2D(Collision2D other) {
         if(other.collider.tag == "Ground") {
@@ -79,6 +85,7 @@ public class PlayerController : MonoBehaviour {
             climbing = false;
             rigidbody.isKinematic = false;
         }
+        
     }
 
     void OnCollisionExit2D(Collision2D other){
@@ -225,7 +232,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Attack(){
-        if(Input.GetKeyDown(attackButton) && !attacking1 && grounded){
+        if(Input.GetKeyDown(attackButton) && !attacking1 && grounded && !halt){
             StartCoroutine(StartAttack());
         }
     }

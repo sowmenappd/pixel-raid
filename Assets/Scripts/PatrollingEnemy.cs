@@ -33,7 +33,7 @@ public class PatrollingEnemy : EnemyEntity, ISimpleEnemy {
 
     //NOTE: startPoint should be at left, endPoint at right
     public IEnumerator PatrolArea(Transform startPoint, Transform endPoint){
-        if(isAlive){
+        if(isAlive && currentState != State.Dead){
             SetState(State.Patrolling);
             Queue<Vector3> stopPositions = new Queue<Vector3>();
             float newX = Random.Range(startPoint.position.x, endPoint.position.x);
@@ -77,7 +77,7 @@ public class PatrollingEnemy : EnemyEntity, ISimpleEnemy {
     }
 
     public bool ScanForPlayer(){
-        if(isAlive){
+        if(isAlive && currentState != State.Dead){
             Collider2D[] availableColliders = Physics2D.OverlapCircleAll(transform.position + Vector3.up * colliderTopOffset, maxScanRadius);
             if(availableColliders != null){
                 foreach(Collider2D c in availableColliders){
@@ -98,7 +98,7 @@ public class PatrollingEnemy : EnemyEntity, ISimpleEnemy {
     }
 
     public IEnumerator AttackPlayer(IDamageable target, int damage){
-        if(!boundaryFlag){
+        if(!boundaryFlag && currentState != State.Dead){
             Transform playerT = target.RetrieveComponent<Transform>();
             PlayerEntity playerE = target.RetrieveComponent<PlayerEntity>();
             if(playerT != null)
@@ -121,6 +121,17 @@ public class PatrollingEnemy : EnemyEntity, ISimpleEnemy {
             }
             StartCoroutine(PatrolArea(patrolStartPoint, patrolEndPoint));
         }
+        else{
+            while(boundaryFlag){
+                SetState(State.Patrolling);
+                CheckForBounds();
+                if(Mathf.Abs(transform.position.x - patrolStartPoint.position.x) < Mathf.Abs(transform.position.x - patrolEndPoint.position.x))
+                transform.position = Vector3.Lerp(transform.position, patrolStartPoint.position, 2 * moveSpeed * Time.deltaTime);
+                else{
+                    transform.position = Vector3.Lerp(transform.position, patrolEndPoint.position, 2 * moveSpeed * Time.deltaTime);
+                }
+            }
+        }
     }
 
     void CheckForBounds(){
@@ -132,8 +143,6 @@ public class PatrollingEnemy : EnemyEntity, ISimpleEnemy {
         else
             boundaryFlag = false;
     }
-
-   
 
     //for the scorpion
     void ConfigureAnimation(Vector3 position){
@@ -164,5 +173,6 @@ public class PatrollingEnemy : EnemyEntity, ISimpleEnemy {
 
     public void SetToDeathState() {
         animator.SetTrigger("Dead");
+        currentState = State.Dead;
     }
 }
