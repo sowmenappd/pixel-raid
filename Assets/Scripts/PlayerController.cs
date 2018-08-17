@@ -7,10 +7,12 @@ public class PlayerController : MonoBehaviour {
     public bool Android = false;
 
     new Rigidbody2D rigidbody;
-    PlayerEntity player;
+    public PlayerEntity player;
 
     public float moveSpeed;
     public float jumpForce;
+
+    public float dir = 1;
     [HideInInspector] public bool grounded;
     [HideInInspector] public bool climbing;
     [HideInInspector] public bool crouched;
@@ -22,7 +24,7 @@ public class PlayerController : MonoBehaviour {
     [HideInInspector] public bool halt; // this is controlled by the entity class
     [HideInInspector] public bool androidJumpFlag;
 
-    public float attackRadius;
+    float attackRadius;
     float currentMoveTimer;
     float nextMoveCheckTime;
     float moveDistanceCheckThreshold = 3f;
@@ -35,6 +37,7 @@ public class PlayerController : MonoBehaviour {
     public KeyCode crouchButton;
 
     Animator animator;
+    float attackCounter = 0;
 
     void Start(){
         halt = false;
@@ -45,6 +48,7 @@ public class PlayerController : MonoBehaviour {
         nextMoveCheckTime = Time.time + 1f;
         playerOldPosition = transform.localPosition;
         androidJumpFlag = false;
+        attackRadius = player.attackRadius;
     }
 
     void Update () {
@@ -61,6 +65,12 @@ public class PlayerController : MonoBehaviour {
             climbing = false;
             rigidbody.isKinematic = false;
             jumpCounter = 0;
+        }
+        if(other.collider.tag == "Enemy"){
+            grounded = true;
+            climbing = false;
+            jumpCounter = 0;
+            GetComponent<IDamageable>().TakeDamage(other.collider.GetComponent<EnemyEntity>().damage);
         }
     }
     void OnCollisionStay2D(Collision2D other) {
@@ -97,24 +107,23 @@ public class PlayerController : MonoBehaviour {
         float v = Input.GetKeyDown(jumpButton) ? 1 : 0;
 
         if (h < 0){
+            this.dir = -1;
             GetComponent<SpriteRenderer>().flipX = true;
-            player.attackPoint.localPosition = new Vector2(-.153f, -.074f);
         }
         else if (h > 0){
+            this.dir = 1;
             GetComponent<SpriteRenderer>().flipX = false;
-            player.attackPoint.localPosition = new Vector2(.153f, -.074f);
         }
 
         if (grounded && v > 0){
+            grounded = false;
             GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpForce, ForceMode2D.Force + 5);
             GetComponent<Rigidbody2D>().velocity = Vector2.ClampMagnitude(GetComponent<Rigidbody2D>().velocity, 70);
-            grounded = false;
         }
         else if(climbing && !grounded){
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
             transform.Translate(Vector2.up * Time.deltaTime * 
                 (Input.GetKey(jumpButton) ? 1 : Input.GetKey(crouchButton) ? -1 : 0));
-            grounded = false;
         } else {
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         }
@@ -126,7 +135,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         Vector2 dir = new Vector2(h, 0);
-        if(((!attacking1  || (!attacking1  && !attacking2)) && !crouched) && !halt)
+        if(((!attacking1  || (!attacking1  && !attacking2)) /*&& !crouched*/) && !halt)
             transform.Translate(dir * moveSpeed * Time.deltaTime);
     }
 
@@ -171,15 +180,11 @@ public class PlayerController : MonoBehaviour {
 
         if(h < 0) {
             GetComponent<SpriteRenderer>().flipX = true;
-            player.attackPoint.localPosition = new Vector2(-.153f, -.074f);
-        } else if(h > 0)
-        {
+        } else if(h > 0){
             GetComponent<SpriteRenderer>().flipX = false;
-            player.attackPoint.localPosition = new Vector2(.153f, -.074f);
         }
 
         if(grounded && v > 0 && !androidJumpFlag) {
-            print("Jump counter" + jumpCounter);
             GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpForce, ForceMode2D.Force + 5);
             GetComponent<Rigidbody2D>().velocity = Vector2.ClampMagnitude(GetComponent<Rigidbody2D>().velocity, 70);
             androidJumpFlag = true;
@@ -210,7 +215,7 @@ public class PlayerController : MonoBehaviour {
         currentMoveTimer += Time.deltaTime;
         if(currentMoveTimer > nextMoveCheckTime){
             nextMoveCheckTime = Time.time + .5f;
-            if(Mathf.Abs(playerOldPosition.x - transform.transform.localPosition.x) > moveDistanceCheckThreshold){
+            if(Mathf.Abs(playerOldPosition.x - transform.localPosition.x) > moveDistanceCheckThreshold){
                 moving = true;
             } else{
                 moving = false;
@@ -222,21 +227,51 @@ public class PlayerController : MonoBehaviour {
     void Attack(){
         if(Input.GetKeyDown(attackButton) && !attacking1 && grounded){
             StartCoroutine(StartAttack());
-            player.Attack(player.attackRadius, player.attackDamage, "Enemy");
         }
     }
 
     IEnumerator StartAttack(){
-        attacking1 = true;
-        float c = 0, t = .6f;
-        yield return null;
-        attacking1 = false;
-        while(c <= t){
-            c += Time.deltaTime;
-            if(Input.GetKeyDown(attackButton))
-                attacking2 = true;
-            yield return null;
+        StartCoroutine(player.HaltMovement(player.attackMovementInterruptDelay / 2f));
+        float t = .4f;
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if(attackCounter == 0){
+            animator.SetTrigger("Attack_1");
+            attackCounter++;
+            yield return new WaitForSeconds(t / 2);
+            float c = t / 2;
+            Attack(player.attackRadius, player.damage, "Enemy");
+            while(c <= t){
+                c += Time.deltaTime;
+                if(Input.GetKeyDown(attackButton)){
+                    animator.SetTrigger("Attack_2");
+                    attackCounter++;
+                    yield return new WaitForSeconds(t);
+                    Attack(player.attackRadius, player.damage, "Enemy");
+                }
+                yield return null;
+            }
+            attackCounter = 0;
         }
+    }
+
+    public void Attack(float radius, int attackDamage, string tag){
+        if(player.isAlive){
+            RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Vector2.right * dir, player.attackRadius);
+            if(hit != null){
+                foreach(RaycastHit2D r in hit){
+                    if(r.collider.GetComponent<IDamageable>() != null && r.collider.tag == tag){
+                        r.collider.GetComponent<IDamageable>().TakeDamage(attackDamage);
+                        r.collider.GetComponent<Rigidbody2D>().AddForce((Vector2.right + Vector2.up) * dir * player.attackForce);
+                    }
+                }
+            }
+        }
+    }
+
+    void OnDrawGizmos(){
+        Gizmos.color = Color.red;
+        attackRadius = player.attackRadius;
+        Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
 
 }

@@ -22,10 +22,13 @@ public class PlayerAnimator : MonoBehaviour {
         animator.SetBool("Climbing", player.climbing);
         animator.SetBool("Crouched", player.crouched);
 
-        animator.SetBool("Attack_1", player.attacking1);
-        if(player.attacking2){
-            animator.SetTrigger("Attack_2");
-            player.attacking2 = false;
-        }
+        //if(player.attacking1){
+        //    animator.SetTrigger("Attack_1");
+        //    player.attacking1 = false;
+        //}
+        //if(player.attacking2){
+        //    animator.SetTrigger("Attack_2");
+        //    player.attacking2 = false;
+        //}
     }
 }

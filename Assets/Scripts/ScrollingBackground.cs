@@ -16,7 +16,7 @@ public class ScrollingBackground : MonoBehaviour {
 	}
 	
 	void Update () {
-        if(pEntity.isAlive && player.moving){
+        if(pEntity.isAlive && player.moving && !player.halt){
             float dir;
             if(!player.Android){
                 dir = Input.GetKey(player.leftButton) ? -1 : ( Input.GetKey(player.rightButton) ? 1 : 0 );
