@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour {
     public KeyCode rightButton;
     public KeyCode attackButton;
     public KeyCode crouchButton;
+    public KeyCode interactButton;
 
     Animator animator;
     float attackCounter = 0;
@@ -240,7 +241,6 @@ public class PlayerController : MonoBehaviour {
     IEnumerator StartAttack(){
         StartCoroutine(player.HaltMovement(player.attackMovementInterruptDelay / 2f));
         float t = .4f;
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         if(attackCounter == 0){
             animator.SetTrigger("Attack_1");
             attackCounter++;

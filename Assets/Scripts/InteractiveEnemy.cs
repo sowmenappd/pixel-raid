@@ -78,13 +78,12 @@ public class InteractiveEnemy : EnemyEntity, ISimpleEnemy {
         return false;
     }
 
-    public override void TakeDamage(int _damage)
-    {
+    public override void TakeDamage(int _damage){
         animator.SetTrigger("Attacked");
         base.TakeDamage(_damage);
     }
 
-    void Update(){
+    void Update() {
         ConfigureSkeletonDirection();
         oldPosition = ( oldPosition != transform.position ) ? transform.position : oldPosition;
     }
@@ -107,8 +106,7 @@ public class InteractiveEnemy : EnemyEntity, ISimpleEnemy {
                 dir = 1;
                 GetComponent<SpriteRenderer>().flipX = false;
                 attackCollider.offset = attackColliderPos;
-            } else if(transform.position.x > target.RetrieveComponent<Transform>().position.x)
-            {
+            } else if(transform.position.x > target.RetrieveComponent<Transform>().position.x){
                 dir = -1;
                 GetComponent<SpriteRenderer>().flipX = true;
                 attackCollider.offset = -attackColliderPos;
@@ -135,7 +133,8 @@ public class InteractiveEnemy : EnemyEntity, ISimpleEnemy {
         base.Start();
         animator = GetComponent<Animator>();
         attackCollider.enabled = false;
-        Physics.IgnoreLayerCollision(gameObject.layer, gameObject.layer, true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Interactive Enemy"), LayerMask.NameToLayer("Interactive Enemy"), true);
+        print(Physics.GetIgnoreLayerCollision(LayerMask.NameToLayer("Interactive Enemy"), LayerMask.NameToLayer("Interactive Enemy")));
         OnDeath += TriggerDeath;
         StartCoroutine(PatrolArea(patrolStartPoint, patrolEndPoint));
     }
