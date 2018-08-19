@@ -122,13 +122,21 @@ MonoBehaviour:
   isAlive: 0
   attackForce: 100
   damage: 12
+  damageWaitTime: 0.5
+  componentsToTurnOffOnDeath: []
+  destroyAfterDeath: 0
+  destroyDelay: 2
+  fadeOnDeath: 0
+  fadeDuration: 2
   currentState: 0
   moveSpeed: 6
   attackSpeed: 0.5
   minPatrolWaitTime: 0.5
   maxPatrolWaitTime: 1.25
+  minimumPatrolDistance: 0.6
   maxScanRadius: 14
   maxAttackRadius: 5
+  colliderTopOffset: 0
   patrolStartPoint: {fileID: 0}
   patrolEndPoint: {fileID: 0}
 --- !u!212 &212225503926976100

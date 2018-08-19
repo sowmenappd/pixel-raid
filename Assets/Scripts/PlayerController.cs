@@ -57,7 +57,10 @@ public class PlayerController : MonoBehaviour {
             MoveAndroid();
         else Move();
         CheckForMovement();
-        Attack();
+        if(Android)
+            AttackAndroid();
+        else
+            Attack();
 	}
 
     void OnCollisionEnter2D(Collision2D other){
@@ -149,7 +152,7 @@ public class PlayerController : MonoBehaviour {
 
     #region AndroidControls
 
-    [HideInInspector] public bool moveLeft, moveRight, jump, crouch;
+    [HideInInspector] public bool moveLeft, moveRight, jump, crouch, attack;
     int jumpCounter = 0;
 
     public void MoveLeftAndroidIn(){
@@ -178,6 +181,12 @@ public class PlayerController : MonoBehaviour {
     }
     public void CrouchAndroidOut(){
         crouch = false;
+    }
+    public void AttackAndroidIn(){
+        attack = true;
+    }
+    public void AttackAndroidOut(){
+        attack = false;
     }
 
     void MoveAndroid(){
@@ -217,6 +226,14 @@ public class PlayerController : MonoBehaviour {
         if(( ( !attacking1 || ( !attacking1 && !attacking2 ) ) && !crouched ) && !halt)
             transform.Translate(dir * moveSpeed * Time.deltaTime);
     }
+
+    void AttackAndroid(){
+        if(attack && grounded && !halt){
+            StartCoroutine(StartAttack());
+        }
+    }
+
+
     #endregion
 
     void CheckForMovement(){
@@ -239,21 +256,23 @@ public class PlayerController : MonoBehaviour {
     }
 
     IEnumerator StartAttack(){
-        StartCoroutine(player.HaltMovement(player.attackMovementInterruptDelay / 2f));
-        float t = .4f;
         if(attackCounter == 0){
-            animator.SetTrigger("Attack_1");
+            float t = .4f;
+            StartCoroutine(player.HaltMovement(player.attackMovementInterruptDelay / 2f));
             attackCounter++;
+            animator.SetTrigger("Attack_1");
             yield return new WaitForSeconds(t / 2);
             float c = t / 2;
             Attack(player.attackRadius, player.damage, "Enemy");
             while(c <= t){
                 c += Time.deltaTime;
-                if(Input.GetKeyDown(attackButton)){
-                    animator.SetTrigger("Attack_2");
+                if(Input.GetKeyDown(attackButton) || attack){
                     attackCounter++;
-                    yield return new WaitForSeconds(t);
-                    Attack(player.attackRadius, player.damage, "Enemy");
+                    if(attackCounter <= 2) {
+                        animator.SetTrigger("Attack_2");
+                        yield return new WaitForSeconds(t);
+                        Attack(player.attackRadius, player.damage, "Enemy");
+                    }
                 }
                 yield return null;
             }

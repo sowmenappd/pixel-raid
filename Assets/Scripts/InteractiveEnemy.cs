@@ -13,9 +13,9 @@ public class InteractiveEnemy : EnemyEntity, ISimpleEnemy {
     public float colliderTopOffset;
 
     Animator animator;
-    public Collider2D attackCollider;
-    public Vector2 attackColliderPos;
     IDamageable target;
+    public BoxCollider2D attackCollider;
+    public Vector2 attackColliderPos;
 
     bool _enabled = true, attacking = false;
     float dir = 1;
@@ -119,22 +119,23 @@ public class InteractiveEnemy : EnemyEntity, ISimpleEnemy {
             animator.SetTrigger("Attacking");
             attacking = true;
             ConfigureSkeletonDirection();
-            yield return new WaitForSeconds(.75f);
-            attackCollider.enabled = true;
-            yield return new WaitForSeconds(.2f);
-            attackCollider.enabled = false;
+            yield return new WaitForSeconds(1.25f);
             attacking = false;
             StartCoroutine(PatrolArea(patrolStartPoint, patrolEndPoint));
         } 
+    }
+
+    void OnTriggerEnter2D(Collider2D other){
+        if(other.tag == "Player"){
+            other.GetComponent<IDamageable>().TakeDamage(damage);
+        }
     }
 
 
     public override void Start () {
         base.Start();
         animator = GetComponent<Animator>();
-        attackCollider.enabled = false;
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Interactive Enemy"), LayerMask.NameToLayer("Interactive Enemy"), true);
-        print(Physics.GetIgnoreLayerCollision(LayerMask.NameToLayer("Interactive Enemy"), LayerMask.NameToLayer("Interactive Enemy")));
         OnDeath += TriggerDeath;
         StartCoroutine(PatrolArea(patrolStartPoint, patrolEndPoint));
     }

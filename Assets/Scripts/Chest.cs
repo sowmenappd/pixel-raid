@@ -5,24 +5,21 @@ using UnityEngine;
 public class Chest : LevelObject {
 
     public float interactionRadius = 4f;
-    public bool canInteract, done;
+    bool canInteract, done;
 
-    public KeyCode interactionButton;
+    KeyCode interactionButton;
     Transform playerT;
 
     public GameObject OnInteractDrop;
-	// Use this for initialization
+
 	void Start () {
         interactionButton = FindObjectOfType<PlayerController>().interactButton;
-        print(interactionButton);
         done = false;
         playerT = FindObjectOfType<PlayerEntity>().transform;
     }
 	
-	// Update is called once per frame
 	void Update () {
         if(!done){
-
             if(Mathf.Abs(transform.position.x - playerT.position.x) < interactionRadius) {
                 canInteract = true;
             }
@@ -44,7 +41,7 @@ public class Chest : LevelObject {
             temp.GetComponent<SpriteRenderer>().sortingOrder = 10;
             temp.AddComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             temp.GetComponent<BoxCollider2D>().isTrigger = false;
-            temp.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-.4f, .4f), 1) * 2000f);
+            temp.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-.15f, .15f), 1) * 2000f);
             temp.GetComponent<Rigidbody2D>().gravityScale = 7f;
         }
     }

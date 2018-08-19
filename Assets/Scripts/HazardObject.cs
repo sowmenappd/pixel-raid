@@ -8,12 +8,6 @@ public class HazardObject : LevelObject {
     public float damageRate = 1f;
     public int damage;
 
-    PlayerEntity player;
-
-    void Start(){
-        player = FindObjectOfType<PlayerEntity>();
-    }
-
     public virtual void OnCollisionEnter2D(Collision2D obj){
         if(!transform.GetComponent<Collider2D>().isTrigger)
             Attack(obj.collider.GetComponent<IDamageable>(), damage);

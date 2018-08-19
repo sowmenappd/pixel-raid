@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 212756079435663684}
   - component: {fileID: 95874643713788650}
   - component: {fileID: 50875540442699990}
+  - component: {fileID: 61045017788955140}
   - component: {fileID: 61984684152966504}
   - component: {fileID: 114954781682652620}
-  - component: {fileID: 61045017788955140}
   m_Layer: 9
   m_Name: Dark Skeleton
   m_TagString: Enemy
@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1200435045393250}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 323.7, y: -1354, z: 0}
+  m_LocalPosition: {x: 839.6, y: -1234.5, z: 0}
   m_LocalScale: {x: 7, y: 7, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -71,13 +71,13 @@ BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1200435045393250}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.6377111, y: 0.75528944}
+  m_Offset: {x: 0.96595436, y: 0.75528944}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -88,7 +88,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.81143606, y: 1.5105789}
+  m_Size: {x: 0.94, y: 3.48}
   m_EdgeRadius: 0
 --- !u!61 &61984684152966504
 BoxCollider2D:
@@ -161,10 +161,10 @@ MonoBehaviour:
   minPatrolWaitTime: 0
   maxPatrolWaitTime: 0
   minimumPatrolDistance: 0.6
-  maxAttackRadius: 7.03
+  maxAttackRadius: 8.39
   colliderTopOffset: 0
   attackCollider: {fileID: 61045017788955140}
-  attackColliderPos: {x: 0.6377111, y: 0.7552894}
+  attackColliderPos: {x: 0.9659544, y: 0.7552894}
 --- !u!212 &212756079435663684
 SpriteRenderer:
   m_ObjectHideFlags: 1
