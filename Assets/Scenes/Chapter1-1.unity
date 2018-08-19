@@ -5657,7 +5657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09303130fea291a4b967799a0a0d98ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Android: 1
+  Android: 0
   player: {fileID: 1079320369}
   moveSpeed: 25
   jumpForce: 550

@@ -14,7 +14,11 @@ public class PlayerEntity : LivingEntity {
     public float damagedMovementInterruptDelay;
     public float attackRadius;
 
-	public override void Start () {
+    void Awake(){
+        MonologueManager.Instance.Wakeup();
+    }
+
+    public override void Start () {
         base.Start();
         animator = GetComponent<Animator>();
         controller = GetComponent<PlayerController>();
