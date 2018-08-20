@@ -27,5 +27,6 @@ public class CameraShiftPoint : MonoBehaviour {
     IEnumerator StartShift(Vector2 targetPoint){
         yield return null;
         //TODO: implement
+        print("this is a test text");
     }
 }
