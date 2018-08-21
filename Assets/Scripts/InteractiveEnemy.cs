@@ -54,7 +54,9 @@ public class InteractiveEnemy : EnemyEntity, ISimpleEnemy {
                     Vector3 nextPatrolPosition = new Vector3(newX, transform.position.y, transform.position.z);
                     stopPositions.Enqueue(nextPatrolPosition);
                     float timeToWait = Random.Range(minPatrolWaitTime, maxPatrolWaitTime);
+                    animator.SetBool("Moving", false);
                     yield return new WaitForSeconds(timeToWait);
+                    animator.SetBool("Moving", true);
                 }
                 yield return null;
             }
@@ -64,7 +66,7 @@ public class InteractiveEnemy : EnemyEntity, ISimpleEnemy {
 
     public bool ScanForPlayer() {
         if(currentState == State.Idle || currentState == State.Patrolling || currentState == State.Attacking){
-            Collider2D[] availableColliders = Physics2D.OverlapCircleAll(transform.position + Vector3.up * colliderTopOffset, maxAttackRadius);
+            Collider2D[] availableColliders = Physics2D.OverlapCircleAll(transform.position + Vector3.up * colliderTopOffset, maxAttackRadius - 3f);
             if(availableColliders != null){
                 foreach(Collider2D c in availableColliders){
                     if(c.tag == "Player"){

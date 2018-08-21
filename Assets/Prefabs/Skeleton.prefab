@@ -158,8 +158,8 @@ MonoBehaviour:
   patrolStartPoint: {fileID: 0}
   patrolEndPoint: {fileID: 0}
   moveSpeed: 5
-  minPatrolWaitTime: 0
-  maxPatrolWaitTime: 0
+  minPatrolWaitTime: 1
+  maxPatrolWaitTime: 1.25
   minimumPatrolDistance: 0.6
   maxAttackRadius: 7.03
   colliderTopOffset: 0

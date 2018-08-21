@@ -6,7 +6,6 @@ public class Coin : LevelObject {
 
     public int Points = 1;
 	
-
     void OnCollisionEnter2D(Collision2D other){
         if(other.collider.tag == "Ground"){
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
@@ -25,7 +24,7 @@ public class Coin : LevelObject {
     void OnPickup(PlayerEntity entity){
         if(entity != null){
             print("Coin picked up");
-            // add coins to player's inventory
+            //TODO: add coins to player's inventory
         }
     }
 
