@@ -50,6 +50,15 @@ public class PlayerController : MonoBehaviour {
         playerOldPosition = transform.localPosition;
         androidJumpFlag = false;
         attackRadius = player.attackRadius;
+
+        MonologueManager.Instance.OnMonologueStart += () => {
+                                                                animator.SetBool("Idle", true);
+                                                                StartCoroutine(DisableAnimator());
+                                                            };
+        MonologueManager.Instance.OnMonologueEnd += () => {
+                                                                this.enabled = true;
+                                                                animator.enabled = true;
+        };
     }
 
     void Update () {
@@ -62,6 +71,12 @@ public class PlayerController : MonoBehaviour {
         else
             Attack();
 	}
+
+    IEnumerator DisableAnimator(){
+        this.enabled = false;
+        yield return new WaitForSeconds(.4f);
+        animator.enabled = false;
+    }
 
     void OnCollisionEnter2D(Collision2D other){
         if(other.collider.tag == "Ground"){

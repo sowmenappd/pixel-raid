@@ -31,9 +31,8 @@ public class MonologueManager : MonoBehaviour {
 
     #endregion
 
-    List<Monologue> monologues;
-    Queue<Monologue> storySequence = new Queue<Monologue>();
-    Monologue holder;
+    List<Monologue> monologues; // this holds all the monologues in the game
+    Monologue holder; // this holds the current monologue being played
 
     //events for UI handling
     public event System.Action OnMonologueStart;
@@ -44,6 +43,10 @@ public class MonologueManager : MonoBehaviour {
     Animator dialogueAnimator;
 
     bool pressed = false;
+    bool locked = false;
+    public bool Locked { get { return locked; } }
+
+    float charUpdateRate;
 
     void Start(){
         dialogueBoxText = GameObject.Find("DialogueTextBox").GetComponent<Text>();
@@ -53,42 +56,56 @@ public class MonologueManager : MonoBehaviour {
         dialogueAnimator = dialogueButton.GetComponent<Animator>();
 
         OnMonologueStart += ( () => dialogueAnimator.SetTrigger("OnMonologueStart") );
-        
+
         OnMonologueEnd += ( () => {
             dialogueAnimator.SetTrigger("OnMonologueEnd") ;
             dialogueBoxText.text = "";
             } );
 
-        
         monologues = FindObjectsOfType<Monologue>().OrderBy(o => o.storyOrder).ToList();
-        if(monologues != null){
-            foreach(Monologue m in monologues){
-                storySequence.Enqueue(m);
-            }
+
+        foreach(StoryEvent _event in FindObjectsOfType<StoryEvent>()){
         }
     }
 
     public void GetNextMonologue(){
-        if(storySequence.Count == monologues.Count){
-            if(OnMonologueStart != null) OnMonologueStart();
-        }
-        holder = storySequence.Dequeue();
+        if(OnMonologueStart != null) OnMonologueStart();
+        holder = monologues[0];
+        monologues.RemoveAt(0);
         StartCoroutine(DisplayNextMonologueText(holder));
+        holder.gameObject.SetActive(false);
+    }
+
+    public void GetMonologueByOrder(int order){
+        if(order >= monologues.Count) return;
+        if(OnMonologueStart != null) OnMonologueStart();
+        holder = monologues.Find(e => e.storyOrder == order);
+        if(monologues.RemoveAll(e => e.storyOrder == order)>0){
+            print("removed");
+        }
+        StartCoroutine(DisplayNextMonologueText(holder));
+        holder.gameObject.SetActive(false);
     }
 
     IEnumerator DisplayNextMonologueText(Monologue monologue){
         if(holder != null){
-            if(OnMonologueStart != null) OnMonologueStart();
             int currentIndex = 0;
-            while(currentIndex < monologue.text.Length){
-                dialogueBoxText.text = "";
+            locked = true;
+            charUpdateRate = .003f;
+            while(currentIndex < monologue.lines.Length){
+                if(monologue.lines[currentIndex].name != ""){
+                    dialogueBoxText.text = monologue.lines[currentIndex].name + ": ";
+                } else {
+                    dialogueBoxText.text = "";
+                }
                 int i=0;
-                while(i < monologue.text[currentIndex].Length){
-                    dialogueBoxText.text += monologue.text[currentIndex][i];
+                while(i < monologue.lines[currentIndex].text.Length){
+                    dialogueBoxText.text += monologue.lines[currentIndex].text[i];
                     i++;
-                    yield return new WaitForSeconds(0.05f);
+                    yield return new WaitForSeconds(charUpdateRate);
                 } 
                 yield return new WaitUntil(() => pressed == true);
+                locked = false;
                 currentIndex++;
             }
             if(OnMonologueEnd != null) OnMonologueEnd();
@@ -97,15 +114,12 @@ public class MonologueManager : MonoBehaviour {
 
     public void OnPressButton(){
         pressed = true;
-        print("Pressed");
         StartCoroutine(Wait());
+        if(locked) charUpdateRate = .001f;
     }
     
     IEnumerator Wait(){
-        yield return new WaitForSeconds(.25f);    
+        yield return new WaitForSeconds(.05f);    
         pressed = false;        
     }
-
-
-
 }

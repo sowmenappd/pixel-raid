@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-[RequireComponent(typeof(BoxCollider2D))]
 public class Monologue : MonoBehaviour {
-    [TextArea(2, 4)][Tooltip("All text strings are to be played in array sequence")]
-    public string[] text;
+
     public int storyOrder = 0;
+    [System.Serializable]
+    public class Line{
+        [TextArea(2, 4)][Tooltip("All text strings are to be played in array sequence")]
+        public string name = null;
+        public string text = null;
+    }
+    public Line[] lines;
     public bool replayable = false;
 
 
@@ -18,9 +23,15 @@ public class Monologue : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D col){
-        if(col.tag == "Player"){
+        if(col.tag == "Player" && !MonologueManager.Instance.Locked){
             MonologueManager.Instance.GetNextMonologue();
-            if(!this.replayable) gameObject.SetActive(false);
+            //if(!this.replayable) gameObject.SetActive(false);
+        }
+    }
+    void OnTriggerStay2D(Collider2D col){
+        if(col.tag == "Player" && !MonologueManager.Instance.Locked){
+            MonologueManager.Instance.GetNextMonologue();
+            //if(!this.replayable) gameObject.SetActive(false);
         }
     }
 

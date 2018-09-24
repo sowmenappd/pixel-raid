@@ -572,7 +572,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 71774202}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 369.1, y: -1311.6, z: 0}
+  m_LocalPosition: {x: 327.4, y: -1346.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1902419191}
@@ -589,9 +589,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e792adbc05470a4282285ccdfbcfd2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text:
-  - This is the second story box!
   storyOrder: 1
+  lines:
+  - name: 
+    text: Move around using 'A' and 'D'
+  - name: 
+    text: Jump using 'W'
+  - name: 
+    text: Crouch using 'S'
   replayable: 0
 --- !u!1 &77940767
 GameObject:
@@ -2922,7 +2927,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &533824662
 Prefab:
@@ -2987,6 +2992,11 @@ Prefab:
         type: 2}
       propertyPath: m_SpriteTilingProperty.oldSize.x
       value: 1.375
+      objectReference: {fileID: 0}
+    - target: {fileID: 212756079435663684, guid: 0649b8a58e096b64ead12b915e18c46b,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0649b8a58e096b64ead12b915e18c46b, type: 2}
@@ -3951,7 +3961,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4556243565998774, guid: ac5c53bae3add8d45a21c6b553dccf5d, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 61491365255020708, guid: ac5c53bae3add8d45a21c6b553dccf5d,
         type: 2}
@@ -4339,7 +4349,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 728300264}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 324, y: -1347.3, z: 0}
+  m_LocalPosition: {x: 305, y: -1347.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1902419191}
@@ -4356,9 +4366,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e792adbc05470a4282285ccdfbcfd2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text:
-  - This is the first story box!
   storyOrder: 0
+  lines:
+  - name: Pilot
+    text: Alright sir, this is as far as we can go.
+  - name: You
+    text: What do you mean?
+  - name: Pilot
+    text: Sir, we don't usually fly this far out...
+  - name: You
+    text: Ehh? Why?
+  - name: Pilot
+    text: Lolcals have 'em saying this forest is haunted.
+  - name: You
+    text: Hahahaha... you can't surely be serious about that!
+  - name: Pilot
+    text: '...'
+  - name: You
+    text: Fine! I'll deal with y'a ghosts myself.
+  - name: Pilot
+    text: Best of luck on your journey, sir.
   replayable: 0
 --- !u!1001 &730506746
 Prefab:
@@ -4411,6 +4438,53 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4849178437452384, guid: e265bbcce0e74fd478df769345a5d227,
     type: 2}
   m_PrefabInternal: {fileID: 730506746}
+--- !u!1 &732578393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 732578394}
+  - component: {fileID: 732578395}
+  m_Layer: 0
+  m_Name: S4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &732578394
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 732578393}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 455.8, y: -1313.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1902419191}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &732578395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 732578393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e792adbc05470a4282285ccdfbcfd2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storyOrder: 3
+  lines:
+  - name: 
+    text: Coins?
+  - name: 
+    text: Maybe I'll hold onto them for now.
+  replayable: 0
 --- !u!1001 &734190742
 Prefab:
   m_ObjectHideFlags: 0
@@ -4532,6 +4606,126 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 33.91664, y: 17.105547}
   m_EdgeRadius: 0
+--- !u!1 &742033636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 742033637}
+  - component: {fileID: 742033638}
+  - component: {fileID: 742033639}
+  - component: {fileID: 742033641}
+  m_Layer: 0
+  m_Name: Helicopter
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &742033637
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 742033636}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 187.5, y: -1299, z: 0}
+  m_LocalScale: {x: 8.887769, y: 7.728495, z: 7.728495}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &742033638
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 742033636}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 57468b28dda7ef643952e63c4d9d73ce, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!212 &742033639
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 742033636}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 9
+  m_Sprite: {fileID: 21300000, guid: adab399e0ea84b74aa22d9c1ab7758b4, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 6, y: 2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!61 &742033641
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 742033636}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.46742594, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 6, y: 2}
+    newSize: {x: 6, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 5.0651484, y: 2}
+  m_EdgeRadius: 0
 --- !u!1 &747191393
 GameObject:
   m_ObjectHideFlags: 0
@@ -4570,7 +4764,7 @@ Transform:
   - {fileID: 1312570234}
   - {fileID: 1878533887}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &776764224
 GameObject:
@@ -4848,6 +5042,97 @@ Transform:
   m_Father: {fileID: 1924430179}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &867787963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 867787964}
+  - component: {fileID: 867787967}
+  - component: {fileID: 867787966}
+  - component: {fileID: 867787965}
+  m_Layer: 0
+  m_Name: Event 0
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &867787964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 867787963}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 300, y: -1322.7, z: 0}
+  m_LocalScale: {x: 2.3922, y: 2.3922, z: 2.3922}
+  m_Children: []
+  m_Father: {fileID: 1026036472}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &867787965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 867787963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8ad03fa390b9a74d898571e5ebdc60a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggeringColliderTags:
+  - Player
+  monologueOrder: 0
+  eventTriggerRadius: 6
+--- !u!61 &867787966
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 867787963}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 7, y: 7}
+  m_EdgeRadius: 0
+--- !u!50 &867787967
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 867787963}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
 --- !u!1 &873759866
 GameObject:
   m_ObjectHideFlags: 0
@@ -4989,7 +5274,7 @@ GameObject:
   - component: {fileID: 895604311}
   - component: {fileID: 895604312}
   m_Layer: 0
-  m_Name: S4
+  m_Name: S5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5002,11 +5287,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 895604310}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 447.2, y: -1311.6, z: 0}
+  m_LocalPosition: {x: 634.8, y: -1306.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1902419191}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &895604312
 MonoBehaviour:
@@ -5019,9 +5304,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e792adbc05470a4282285ccdfbcfd2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text:
-  - This is the last story box!
-  storyOrder: 3
+  storyOrder: 4
+  lines:
+  - name: 
+    text: White skeletons are slow and deal small amounts of damage.
+  - name: 
+    text: But look out for the darker ones, they are bad.
   replayable: 0
 --- !u!4 &949425043 stripped
 Transform:
@@ -5524,6 +5812,35 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!1 &1026036471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1026036472}
+  m_Layer: 0
+  m_Name: Events
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1026036472
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1026036471}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 867787964}
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1027564056
 GameObject:
   m_ObjectHideFlags: 0
@@ -5905,9 +6222,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1079320361}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 299.8, y: -1347, z: 0}
-  m_LocalScale: {x: 36.29445, y: 36.29445, z: 36.29445}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 304, y: -1345.8, z: 0}
+  m_LocalScale: {x: 36, y: 36, z: 6}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -7421,10 +7738,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e792adbc05470a4282285ccdfbcfd2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text:
-  - This is the third story box!
-  - Oh, hey look the third one has another text in it!
   storyOrder: 2
+  lines:
+  - name: Old man
+    text: Hello, young traveller!
+  - name: Old man
+    text: Beware of where you tread! You may never come back.
+  - name: You
+    text: What are you doing in the middle of this forest?
+  - name: Old man
+    text: Many years ago, on a full moon night like this I came here with my wife.
+  - name: Old man
+    text: That night was the last time I saw her...
+  - name: You
+    text: '...'
+  - name: Old man
+    text: '...'
+  - name: You
+    text: What happened to her?
+  - name: Old man
+    text: I don't know young fella'. But I come here once in a while to rest, maybe
+      she'll come back one day.
+  - name: You
+    text: Yes, that might be true.
   replayable: 0
 --- !u!1 &1582391724
 GameObject:
@@ -7673,11 +8009,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4849178437452384, guid: e265bbcce0e74fd478df769345a5d227, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 347.7
+      value: 608.6
       objectReference: {fileID: 0}
     - target: {fileID: 4849178437452384, guid: e265bbcce0e74fd478df769345a5d227, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1327.7
+      value: -1262.7999
       objectReference: {fileID: 0}
     - target: {fileID: 4849178437452384, guid: e265bbcce0e74fd478df769345a5d227, type: 2}
       propertyPath: m_LocalPosition.z
@@ -8626,6 +8962,51 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 471014ea06bf7ff4cad3fbe4fa7e13b3, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1872901684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1872901685}
+  - component: {fileID: 1872901686}
+  m_Layer: 0
+  m_Name: S6
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1872901685
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1872901684}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 738.9, y: -1266.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1902419191}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1872901686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1872901684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e792adbc05470a4282285ccdfbcfd2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storyOrder: 5
+  lines:
+  - name: 
+    text: You'll occasionally find treasure boxes. Open them for rewards!
+  replayable: 0
 --- !u!1001 &1878533886
 Prefab:
   m_ObjectHideFlags: 0
@@ -8907,7 +9288,7 @@ Transform:
   m_Children:
   - {fileID: 1301818613}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1900725530
 MonoBehaviour:
@@ -8997,7 +9378,9 @@ Transform:
   - {fileID: 728300265}
   - {fileID: 71774203}
   - {fileID: 1564175094}
+  - {fileID: 732578394}
   - {fileID: 895604311}
+  - {fileID: 1872901685}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9039,7 +9422,7 @@ Transform:
   - {fileID: 1508589348}
   - {fileID: 1017565508}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1927300482
 Prefab:
@@ -9050,11 +9433,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4849178437452384, guid: e265bbcce0e74fd478df769345a5d227, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 347.7
+      value: 608.6
       objectReference: {fileID: 0}
     - target: {fileID: 4849178437452384, guid: e265bbcce0e74fd478df769345a5d227, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1316.9
+      value: -1252
       objectReference: {fileID: 0}
     - target: {fileID: 4849178437452384, guid: e265bbcce0e74fd478df769345a5d227, type: 2}
       propertyPath: m_LocalPosition.z
@@ -9284,11 +9667,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4716098830914200, guid: 347e8837cd4233f4385bac3631e2b825, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 347.8
+      value: 608.69995
       objectReference: {fileID: 0}
     - target: {fileID: 4716098830914200, guid: 347e8837cd4233f4385bac3631e2b825, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1311.9
+      value: -1247
       objectReference: {fileID: 0}
     - target: {fileID: 4716098830914200, guid: 347e8837cd4233f4385bac3631e2b825, type: 2}
       propertyPath: m_LocalPosition.z
@@ -9802,7 +10185,7 @@ Transform:
   - {fileID: 1163032593}
   - {fileID: 1123230481}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2051914033
 Prefab:
@@ -10049,11 +10432,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4849178437452384, guid: e265bbcce0e74fd478df769345a5d227, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 347.7
+      value: 608.6
       objectReference: {fileID: 0}
     - target: {fileID: 4849178437452384, guid: e265bbcce0e74fd478df769345a5d227, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1322.4
+      value: -1257.5
       objectReference: {fileID: 0}
     - target: {fileID: 4849178437452384, guid: e265bbcce0e74fd478df769345a5d227, type: 2}
       propertyPath: m_LocalPosition.z
@@ -10213,7 +10596,7 @@ Transform:
   - {fileID: 297130429}
   - {fileID: 794012426}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2135200855
 GameObject:
